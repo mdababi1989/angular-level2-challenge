@@ -1,0 +1,26 @@
+<h1>Step 2: Select your config and options</h1>
+
+<form [formGroup]="carConfigForm">
+  <div class="group">
+    <select class="select" (change)="changeCarConfig($event)" formControlName="config" id="modelSelect"
+            *ngIf="carConfigDescList">
+      <option class="option" value="">Choose your config</option>
+      <option class="option" *ngFor="let config of carConfigDescList" [value]="config">{{config}}</option>
+    </select>
+    <div *ngIf="carConfigFormControls.config.invalid && (carConfigFormControls.config.dirty
+    || carConfigFormControls.config.touched)" class="alert alert-danger form-danger" role="alert">
+      <div *ngIf="carConfigFormControls.config.errors?.required">
+        Please choose a car config
+      </div>
+    </div>
+  </div>
+  <div *ngIf="carConfigList.towHitch">
+    <label>Tow hitch?</label>
+    <input type="checkbox" formControlName="towHitch">
+  </div>
+  <div *ngIf="carConfigList.yoke">
+    <label>Yoke steering wheel? </label>
+    <input type="checkbox" formControlName="yokeWheel">
+  </div>
+
+</form>

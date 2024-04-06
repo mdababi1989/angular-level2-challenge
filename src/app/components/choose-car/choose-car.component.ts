@@ -1,8 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {TeslaCarService} from "../../services/tesla-car.service";
 import {CarModel} from "../../models/car-model";
-import {empty, filter, map, Observable, of} from "rxjs";
-import {AsyncPipe, CommonModule} from "@angular/common";
+import { CommonModule} from "@angular/common";
 import {FormBuilder, ReactiveFormsModule, Validators} from "@angular/forms";
 import {CarColor} from "../../models/car-color";
 
@@ -10,7 +9,6 @@ import {CarColor} from "../../models/car-color";
   selector: 'choose-tesla-car',
   standalone: true,
   imports: [
-    AsyncPipe,
     CommonModule,
     ReactiveFormsModule
   ],
