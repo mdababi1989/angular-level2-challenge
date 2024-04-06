@@ -1,0 +1,36 @@
+<h1>Step 1: Choose your model and color</h1>
+
+<form [formGroup]="chooseCarForm" (ngSubmit)="onSubmit()">
+  <div class="group">
+    <select class="select" (change)="changeCarModel($event)" formControlName="carModel" id="modelSelect"
+            *ngIf="carModelsDesc">
+      <option class="option" value="">Choose your car model</option>
+      <option class="option" *ngFor="let model of carModelsDesc" [value]="model">{{model}}</option>
+    </select>
+    <div *ngIf="chooseCarFormControls.carModel.invalid && (chooseCarFormControls.carModel.dirty
+    || chooseCarFormControls.carModel.touched)" class="alert alert-danger form-danger" role="alert">
+      <div *ngIf="chooseCarFormControls.carModel.errors?.required">
+        Please choose a car model
+      </div>
+    </div>
+    <select class="custom-select" (change)="changeCarColor($event)" formControlName="carColor"  id="colorSelect"
+            *ngIf="selectedCarModel && selectedCarModel.colors">
+      <option value="">Choose your color</option>
+      <option *ngFor="let color of selectedCarModel.colors" [value]="color.description">{{color.description}}</option>
+    </select>
+    <div *ngIf="chooseCarFormControls.carColor.invalid && (chooseCarFormControls.carColor.dirty
+    || chooseCarFormControls.carColor.touched)" class="alert alert-danger form-danger" role="alert">
+      <div *ngIf="chooseCarFormControls.carColor.errors?.required">
+        Please choose a car color
+      </div>
+    </div>
+  </div>
+
+  <ng-container *ngIf="imageUrl">
+    <img [src]="imageUrl" class="car-image">
+
+  </ng-container>
+
+</form>
+
+

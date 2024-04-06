@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {AsyncPipe, JsonPipe} from '@angular/common';
 import {RouterOutlet} from "@angular/router";
-import {NavbarComponent} from "./components/app-navbar/navbar.component";
+import {NavbarComponent} from "./components/navbar/navbar.component";
 
 @Component({
   selector: 'app-root',
