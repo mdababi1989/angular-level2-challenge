@@ -10,7 +10,6 @@ import {CommonModule} from "@angular/common";
   styleUrl: './car-image.component.scss'
 })
 export class CarImageComponent {
-  @Input() imageUrl!: string | null
-  constructor(private stateService: StateService) {}
+  constructor(public stateService: StateService) {}
 
 }

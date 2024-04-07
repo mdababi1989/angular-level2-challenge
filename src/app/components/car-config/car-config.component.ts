@@ -26,9 +26,8 @@ export class CarConfigComponent implements OnInit {
   })
   carConfigList!: CarConfigList;
   imageUrl!: string | null;
-  selectedCarConfig!: CarConfig | null
 
-  constructor(private teslaCarService: TeslaCarService, public fb: FormBuilder, private stateService: StateService) {
+  constructor(private teslaCarService: TeslaCarService, public fb: FormBuilder, public stateService: StateService) {
   }
 
   ngOnInit(): void {
@@ -51,10 +50,9 @@ export class CarConfigComponent implements OnInit {
 
   changeCarConfig($event: Event) {
     const selectedCarConfigId: number = +($event.target as HTMLInputElement).value
-    this.selectedCarConfig = this.carConfigList.configs.find((carConfig: CarConfig) => carConfig.id === selectedCarConfigId) || null
-    this.stateService.selectedCarConfig = this.selectedCarConfig
+    const selectedCarConfig = this.carConfigList.configs.find((carConfig: CarConfig) => carConfig.id === selectedCarConfigId) || null
+    this.stateService.selectedCarConfig = selectedCarConfig
   }
-
 
   get carConfigFormControls() {
     return this.carConfigForm.controls;

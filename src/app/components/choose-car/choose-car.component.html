@@ -2,31 +2,36 @@
 
 <form [formGroup]="chooseCarForm">
   <div class="group">
-    <select class="select" (change)="changeCarModel($event)" formControlName="carModel" id="modelSelect"
-            *ngIf="carModelList">
-      <option class="option" value="">Choose your car model</option>
-      <option class="option" *ngFor="let model of carModelList" [value]="model.code">{{model.description}}</option>
-    </select>
-    <div *ngIf="chooseCarFormControls.carModel.invalid && (chooseCarFormControls.carModel.dirty
-    || chooseCarFormControls.carModel.touched)" class="alert alert-danger form-danger" role="alert">
-      <div *ngIf="chooseCarFormControls.carModel.errors?.['required']">
-        Please choose a car model
+    <div>
+      <select class="select" (change)="changeCarModel($event)" formControlName="carModel" id="modelSelect"
+              *ngIf="carModelList">
+        <option class="option" value="">Choose your car model</option>
+        <option class="option" *ngFor="let model of carModelList" [value]="model.code">{{model.description}}</option>
+      </select>
+      <div *ngIf="chooseCarFormControls.carModel.invalid && (chooseCarFormControls.carModel.dirty
+    || chooseCarFormControls.carModel.touched)">
+        <div *ngIf="chooseCarFormControls.carModel.errors?.['required']" class="error">
+          Please choose a car model
+        </div>
       </div>
     </div>
-    <select class="custom-select" (change)="changeCarColor($event)" formControlName="carColor" id="colorSelect"
-            *ngIf="selectedCarModel && selectedCarModel.colors">
-      <option value="">Choose your color</option>
-      <option *ngFor="let color of selectedCarModel.colors" [value]="color.code">{{color.description}}</option>
-    </select>
-    <div *ngIf="chooseCarFormControls.carColor.invalid && (chooseCarFormControls.carColor.dirty
-    || chooseCarFormControls.carColor.touched)" class="alert alert-danger form-danger" role="alert">
-      <div *ngIf="chooseCarFormControls.carColor.errors?.['required']">
-        Please choose a car color
+    <div>
+      <select class="custom-select" (change)="changeCarColor($event)" formControlName="carColor" id="colorSelect"
+              *ngIf="stateService.selectedCarModel && stateService.selectedCarModel.colors">
+        <option value="">Choose your color</option>
+        <option *ngFor="let color of stateService.selectedCarModel.colors"
+                [value]="color.code">{{color.description}}</option>
+      </select>
+      <div *ngIf="chooseCarFormControls.carColor.invalid && (chooseCarFormControls.carColor.dirty
+    || chooseCarFormControls.carColor.touched)">
+        <div *ngIf="chooseCarFormControls.carColor.errors?.['required']" class="error">
+          Please choose a car color
+        </div>
       </div>
     </div>
   </div>
 
-  <app-car-image [imageUrl]="imageUrl"></app-car-image>
+  <app-car-image></app-car-image>
 
 </form>
 

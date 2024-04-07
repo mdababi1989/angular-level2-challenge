@@ -5,7 +5,6 @@ import {CommonModule} from "@angular/common";
 import {FormBuilder, ReactiveFormsModule, Validators} from "@angular/forms";
 import {CarColor} from "../../models/car-color";
 import {StateService} from "../../services/state.service";
-import {SelectedCar} from "../../models/selected-car";
 import {CarImageComponent} from "../car-image/car-image.component";
 
 @Component({
@@ -20,9 +19,6 @@ import {CarImageComponent} from "../car-image/car-image.component";
   styleUrl: './choose-car.component.scss'
 })
 export class ChooseCarComponent implements OnInit {
-  selectedCarModel!: CarModel | null
-  selectedCarColor!: CarColor | null
-
   carModelList!: CarModel[]
   chooseCarForm = this.fb.group({
     carModel: ['', [Validators.required]],
@@ -30,8 +26,7 @@ export class ChooseCarComponent implements OnInit {
   })
   imageUrl!: string | null;
 
-  constructor(private teslaCarService: TeslaCarService, public fb: FormBuilder, private stateService: StateService) {
-  }
+  constructor(private teslaCarService: TeslaCarService, public fb: FormBuilder, public stateService: StateService) {}
 
 
   ngOnInit(): void {
@@ -44,45 +39,37 @@ export class ChooseCarComponent implements OnInit {
   }
 
   private initFields() {
-    if (this.stateService.selectedCarModel) {
-      this.chooseCarForm.controls.carModel.setValue(this.stateService.selectedCarModel.code)
-      this.selectedCarModel = this.stateService.selectedCarModel
-      if (this.stateService.selectedCarColor) {
-        this.chooseCarForm.controls.carColor.setValue(this.stateService.selectedCarColor.code)
-        this.selectedCarColor = this.stateService.selectedCarColor
-        this.imageUrl = '/assets/images/' + this.selectedCarModel?.code + '/' + this.selectedCarColor?.code + '.jpg'
-      }
+    if (this.stateService.selectedCarModel && this.stateService.selectedCarColor) {
+      this.chooseCarForm.patchValue({
+        carModel: this.stateService.selectedCarModel.code,
+        carColor: this.stateService.selectedCarColor.code
+      })
     }
   }
 
   changeCarModel($event: Event) {
     const selectedCarModelCode: string = ($event.target as HTMLInputElement).value
-    this.selectedCarModel = this.carModelList.find((carModel: CarModel) => carModel.code === selectedCarModelCode) || null
-    if (!this.selectedCarModel) {
-      this.imageUrl = null
-      return
-    }
+    const selectedCarModel = this.carModelList.find((carModel: CarModel) => carModel.code === selectedCarModelCode) || null
+    this.stateService.selectedCarModel = selectedCarModel
 
-    this.chooseCarForm.controls.carColor.setValue(this.selectedCarModel?.colors[0]?.code || null)
-    let defaultColor: CarColor | null = this.selectedCarModel?.colors[0] || null
-    this.imageUrl = '/assets/images/' + this.selectedCarModel?.code + '/' + defaultColor?.code + '.jpg'
-    this.stateService.selectedCarModel = this.selectedCarModel
-    this.stateService.selectedCarColor = defaultColor
-    this.stateService.resetCarConfig()
+    if (selectedCarModel) {
+      let defaultColor: CarColor | null = selectedCarModel.colors[0]
+      this.stateService.selectedCarColor = defaultColor
+      this.stateService.resetCarConfig()
+      this.chooseCarForm.patchValue({
+        carColor: selectedCarModel.colors[0]?.code
+      })
+    }
+    this.stateService.updateImageUrl()
   }
 
   changeCarColor($event: Event) {
     const selectedCarColorCode: string = ($event.target as HTMLInputElement).value
-    if (this.selectedCarModel?.colors) {
-      this.selectedCarColor = this.selectedCarModel.colors.find((carColor) => carColor.code === selectedCarColorCode) || null
+    if (this.stateService.selectedCarModel?.colors) {
+      const selectedCarColor = this.stateService.selectedCarModel.colors.find((carColor) => carColor.code === selectedCarColorCode) || null
+      this.stateService.selectedCarColor = selectedCarColor
+      this.stateService.updateImageUrl()
     }
-    if (!this.selectedCarColor) {
-      this.imageUrl = null
-      return
-    }
-
-    this.imageUrl = '/assets/images/' + this.selectedCarModel?.code + '/' + this.selectedCarColor?.code + '.jpg'
-    this.stateService.selectedCarColor = this.selectedCarColor
   }
 
 
