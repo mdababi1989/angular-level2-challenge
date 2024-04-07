@@ -75,8 +75,6 @@ export class ChooseCarComponent implements OnInit {
     const selectedCarColorCode: string = ($event.target as HTMLInputElement).value
     if (this.selectedCarModel?.colors) {
       this.selectedCarColor = this.selectedCarModel.colors.find((carColor) => carColor.code === selectedCarColorCode) || null
-      console.log(this.selectedCarColor, this.selectedCarModel.colors.map(caColor => caColor.code), selectedCarColorCode)
-
     }
     if (!this.selectedCarColor) {
       this.imageUrl = null

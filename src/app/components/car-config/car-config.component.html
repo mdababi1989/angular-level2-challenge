@@ -2,7 +2,7 @@
 
 <form [formGroup]="carConfigForm">
   <div class="group">
-    <select class="select" (change)="changeCarConfig($event)" formControlName="config" id="modelSelect"
+    <select class="select" (change)="changeCarConfig($event)" formControlName="config" id="configSelect"
             *ngIf="carConfigList?.configs">
       <option class="option" value=0>Choose your config</option>
       <option class="option" *ngFor="let config of carConfigList?.configs"
@@ -21,11 +21,11 @@
   </div>
   <div *ngIf="carConfigList?.towHitch">
     <label>Tow hitch?</label>
-    <input type="checkbox" formControlName="towHitch" (change)="updateTowHitch($event)">
+    <input type="checkbox" formControlName="towHitch" (change)="updateTowHitch($event)" id="includeTow">
   </div>
   <div *ngIf="carConfigList?.yoke">
     <label>Yoke steering wheel? </label>
-    <input type="checkbox" formControlName="yokeWheel" (change)="updateYokeWheel($event)">
+    <input type="checkbox" formControlName="yokeWheel" (change)="updateYokeWheel($event)" id="includeYoke">
   </div>
 
 </form>

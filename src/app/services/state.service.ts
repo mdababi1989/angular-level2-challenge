@@ -18,4 +18,12 @@ export class StateService {
     this.towHitch = false
     this.yokeWheel = false
   }
+
+  isStep1Valid() {
+    return this.selectedCarModel && this.selectedCarColor
+  }
+
+  isStep2Valid() {
+    return this.isStep1Valid() && this.selectedCarConfig
+  }
 }

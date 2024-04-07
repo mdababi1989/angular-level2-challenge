@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import {RouterLink, RouterLinkActive} from "@angular/router";
+import {StateService} from "../../services/state.service";
 
 @Component({
   selector: 'app-navbar',
@@ -12,5 +13,7 @@ import {RouterLink, RouterLinkActive} from "@angular/router";
   styleUrl: './navbar.component.scss'
 })
 export class NavbarComponent {
+
+  constructor(public stateService: StateService) {}
 
 }
