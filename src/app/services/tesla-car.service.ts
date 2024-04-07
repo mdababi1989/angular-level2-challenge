@@ -15,7 +15,7 @@ export class TeslaCarService {
     return this.httpClient.get<CarModel[]>('/models')
   }
 
-  getOptionsByModelCode(modelCode: string): Observable<CarConfigList> {
+  getOptionsByModelCode(modelCode: string | undefined): Observable<CarConfigList> {
     return this.httpClient.get<CarConfigList>(`/options/${modelCode}`);
   }
 }

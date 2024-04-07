@@ -3,24 +3,30 @@
 <form [formGroup]="carConfigForm">
   <div class="group">
     <select class="select" (change)="changeCarConfig($event)" formControlName="config" id="modelSelect"
-            *ngIf="carConfigDescList">
-      <option class="option" value="">Choose your config</option>
-      <option class="option" *ngFor="let config of carConfigDescList" [value]="config">{{config}}</option>
+            *ngIf="carConfigList?.configs">
+      <option class="option" value=0>Choose your config</option>
+      <option class="option" *ngFor="let config of carConfigList?.configs"
+              [value]="config.id">{{config.description}}</option>
     </select>
     <div *ngIf="carConfigFormControls.config.invalid && (carConfigFormControls.config.dirty
     || carConfigFormControls.config.touched)" class="alert alert-danger form-danger" role="alert">
-      <div *ngIf="carConfigFormControls.config.errors?.required">
+      <div *ngIf="carConfigFormControls.config.errors?.['required']">
         Please choose a car config
       </div>
     </div>
   </div>
-  <div *ngIf="carConfigList.towHitch">
-    <label>Tow hitch?</label>
-    <input type="checkbox" formControlName="towHitch">
+  <div *ngIf="selectedCarConfig">
+    Range: {{selectedCarConfig.range}} miles - Max speed: {{selectedCarConfig.speed}} - Cost
+    {{selectedCarConfig.price | currency:'USD':'symbol':'1.2-2'}}
   </div>
-  <div *ngIf="carConfigList.yoke">
+  <div *ngIf="carConfigList?.towHitch">
+    <label>Tow hitch?</label>
+    <input type="checkbox" formControlName="towHitch" (change)="updateTowHitch($event)">
+  </div>
+  <div *ngIf="carConfigList?.yoke">
     <label>Yoke steering wheel? </label>
-    <input type="checkbox" formControlName="yokeWheel">
+    <input type="checkbox" formControlName="yokeWheel" (change)="updateYokeWheel($event)">
   </div>
 
 </form>
+<app-car-image [imageUrl]="imageUrl"></app-car-image>
