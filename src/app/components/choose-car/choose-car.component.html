@@ -15,9 +15,8 @@
         </div>
       </div>
     </div>
-    <div>
-      <select class="custom-select" (change)="changeCarColor($event)" formControlName="carColor" id="colorSelect"
-              *ngIf="stateService.selectedCarModel && stateService.selectedCarModel.colors">
+    <div *ngIf="stateService.selectedCarModel && stateService.selectedCarModel.colors">
+      <select class="custom-select" (change)="changeCarColor($event)" formControlName="carColor" id="colorSelect">
         <option value="">Choose your color</option>
         <option *ngFor="let color of stateService.selectedCarModel.colors"
                 [value]="color.code">{{color.description}}</option>

@@ -3,7 +3,6 @@ import {TeslaCarService} from "../../services/tesla-car.service";
 import {CarModel} from "../../models/car-model";
 import {CommonModule} from "@angular/common";
 import {FormBuilder, ReactiveFormsModule, Validators} from "@angular/forms";
-import {CarColor} from "../../models/car-color";
 import {StateService} from "../../services/state.service";
 import {CarImageComponent} from "../car-image/car-image.component";
 
@@ -53,8 +52,11 @@ export class ChooseCarComponent implements OnInit {
     this.stateService.selectedCarModel = selectedCarModel
 
     if (selectedCarModel) {
-      let defaultColor: CarColor | null = selectedCarModel.colors[0]
-      this.stateService.selectedCarColor = defaultColor
+      /* On valid model selection change:
+      * Set the color to the first selectedModel color
+      * Reset car configuration saved in the state service
+      * */
+      this.stateService.selectedCarColor = selectedCarModel.colors[0]
       this.stateService.resetCarConfig()
       this.chooseCarForm.patchValue({
         carColor: selectedCarModel.colors[0]?.code
@@ -66,12 +68,10 @@ export class ChooseCarComponent implements OnInit {
   changeCarColor($event: Event) {
     const selectedCarColorCode: string = ($event.target as HTMLInputElement).value
     if (this.stateService.selectedCarModel?.colors) {
-      const selectedCarColor = this.stateService.selectedCarModel.colors.find((carColor) => carColor.code === selectedCarColorCode) || null
-      this.stateService.selectedCarColor = selectedCarColor
+      this.stateService.selectedCarColor = this.stateService.selectedCarModel.colors.find((carColor) => carColor.code === selectedCarColorCode) || null
       this.stateService.updateImageUrl()
     }
   }
-
 
   get chooseCarFormControls() {
     return this.chooseCarForm.controls;

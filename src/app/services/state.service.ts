@@ -31,7 +31,7 @@ export class StateService {
 
   updateImageUrl() {
     if (this.selectedCarModel && this.selectedCarColor)
-      this.imageUrl = '/assets/images/' + this.selectedCarModel.code + '/' + this.selectedCarColor.code + '.jpg'
+      this.imageUrl = `/assets/images/${this.selectedCarModel.code}/${this.selectedCarColor.code}.jpg`
     else this.imageUrl = null
   }
 }

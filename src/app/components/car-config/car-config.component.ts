@@ -25,7 +25,6 @@ export class CarConfigComponent implements OnInit {
     yokeWheel: [false]
   })
   carConfigList!: CarConfigList;
-  imageUrl!: string | null;
 
   constructor(private teslaCarService: TeslaCarService, public fb: FormBuilder, public stateService: StateService) {
   }
@@ -40,7 +39,6 @@ export class CarConfigComponent implements OnInit {
   }
 
   private initFields() {
-    this.imageUrl = '/assets/images/' + this.stateService.selectedCarModel?.code + '/' + this.stateService.selectedCarColor?.code + '.jpg'
     this.carConfigForm.patchValue({
       config: this.stateService.selectedCarConfig? this.stateService.selectedCarConfig?.id: 0,
       towHitch: this.stateService.towHitch,
@@ -50,8 +48,7 @@ export class CarConfigComponent implements OnInit {
 
   changeCarConfig($event: Event) {
     const selectedCarConfigId: number = +($event.target as HTMLInputElement).value
-    const selectedCarConfig = this.carConfigList.configs.find((carConfig: CarConfig) => carConfig.id === selectedCarConfigId) || null
-    this.stateService.selectedCarConfig = selectedCarConfig
+    this.stateService.selectedCarConfig = this.carConfigList.configs.find((carConfig: CarConfig) => carConfig.id === selectedCarConfigId) || null
   }
 
   get carConfigFormControls() {
